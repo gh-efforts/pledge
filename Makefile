@@ -1,5 +1,5 @@
 pledge: deps
-	rm pledge
+	rm -f pledge
 	go build ./
 
 deps:

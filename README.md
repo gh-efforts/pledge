@@ -2,6 +2,16 @@
 
 A tool for automatically generating random CAR files and importing them into Boost for sealing tests.
 
+## Build
+
+```shell
+git clone https://github.com/gh-efforts/pledge.git
+
+cd pledge
+
+make
+```
+
 ## Configuration
 
 ```
