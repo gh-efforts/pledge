@@ -18,6 +18,9 @@ func (n *nonceAPI) GetNonce(ctx context.Context, address address.Address, key ty
 	if err != nil {
 		return 0, err
 	}
+	if act.Nonce == 0 {
+		return 0, nil
+	}
 	return act.Nonce + 1, nil
 }
 
