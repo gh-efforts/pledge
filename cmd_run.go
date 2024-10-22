@@ -279,7 +279,7 @@ func runPledge(ctx context.Context, cctx *cli.Context, api api.Gateway, n *node.
 		startEpoch = head + abi.ChainEpoch(5760) // head + 2 days
 	}
 
-	dp, err := dealProposal(ctx, n, walletAddr, rootCid, abi.PaddedPieceSize(cp.PieceSize), pieceCid, maddr, startEpoch, cctx.Int("duration"), false, providerCollateral, abi.NewTokenAmount(cctx.Int64("storage-price")))
+	dp, err := dealProposal(ctx, n, walletAddr, rootCid, abi.PaddedPieceSize(cp.PieceSize), pieceCid, maddr, startEpoch, cctx.Int("duration"), cctx.Bool("verified"), providerCollateral, abi.NewTokenAmount(cctx.Int64("storage-price")))
 	if err != nil {
 		return fmt.Errorf("failed to create a deal proposal: %w", err)
 	}
