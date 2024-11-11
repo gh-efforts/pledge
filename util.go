@@ -42,7 +42,7 @@ import (
 
 const (
 	defaultHashFunction = uint64(multihash.BLAKE2B_MIN + 31)
-	unixfsChunkSize     = uint64(1 << 10)
+	unixfsChunkSize     = uint64(1 << 20)
 	unixfsLinksPerLevel = 1024
 )
 
