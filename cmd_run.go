@@ -172,14 +172,14 @@ func runAction(cctx *cli.Context) error {
 		for totalPledge < maxPledge {
 			// run pledge
 			size := carMinSize + rand.Int63n(carMaxSize-carMinSize+1)
-			if err := runPledge(ctx, cctx, nodeAPI, n, walletAddr, carPath, size); err != nil {
+			if err := runPledge(ctx, cctx, nodeAPI, n, walletAddr, dir, carPath, size); err != nil {
 				return err
 			}
 			totalPledge += size
 		}
 	} else {
 		size := carMinSize + rand.Int63n(carMaxSize-carMinSize+1)
-		if err := runPledge(ctx, cctx, nodeAPI, n, walletAddr, carPath, size); err != nil {
+		if err := runPledge(ctx, cctx, nodeAPI, n, walletAddr, dir, carPath, size); err != nil {
 			return err
 		}
 		totalPledge += size
@@ -188,7 +188,7 @@ func runAction(cctx *cli.Context) error {
 	return nil
 }
 
-func runPledge(ctx context.Context, cctx *cli.Context, api api.Gateway, n *node.Node, walletAddr address.Address, dir string, size int64) error {
+func runPledge(ctx context.Context, cctx *cli.Context, api api.Gateway, n *node.Node, walletAddr address.Address, dir, carPath string, size int64) error {
 	start := time.Now()
 
 	log.Infof("create random file, size: %d", size)
@@ -215,8 +215,7 @@ func runPledge(ctx context.Context, cctx *cli.Context, api api.Gateway, n *node.
 	encoder := cidenc.Encoder{Base: multibase.MustNewEncoder(multibase.Base32)}
 	rn := encoder.Encode(root)
 
-	base := path.Dir(cn)
-	np := path.Join(base, rn+".car")
+	np := path.Join(carPath, rn+".car")
 
 	rootCid, err := cid.Parse(rn)
 	if err != nil {
