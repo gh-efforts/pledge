@@ -41,6 +41,10 @@ var runCmd = &cli.Command{
 	Before: before,
 	Flags: []cli.Flag{
 		&cli.StringFlag{
+			Name:  "car-path",
+			Usage: "specify the path to the car file, if not specified, it will save the car file to the repo",
+		},
+		&cli.StringFlag{
 			Name:     "provider",
 			Usage:    "storage provider on-chain address",
 			Required: true,
@@ -153,7 +157,15 @@ func runAction(cctx *cli.Context) error {
 		return fmt.Errorf("market balance is less than 1 FIL: %s", walletAddr)
 	}
 
-	carPath := path.Join(dir, "temp")
+	var carPath string
+	if cctx.IsSet("car-path") {
+		carPath = cctx.String("car-path")
+		if _, err := os.Stat(carPath); err != nil {
+			return fmt.Errorf("car file not found: %w", err)
+		}
+	} else {
+		carPath = path.Join(dir, "temp")
+	}
 	var totalPledge int64
 
 	if maxPledge > 0 {
