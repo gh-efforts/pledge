@@ -222,7 +222,7 @@ func runPledge(ctx context.Context, cctx *cli.Context, api api.Gateway, n *node.
 		return fmt.Errorf("failed to parse root cid: %w", err)
 	}
 
-	err = os.Rename(cn, np)
+	err = MoveFile(cn, np)
 	if err != nil {
 		return err
 	}

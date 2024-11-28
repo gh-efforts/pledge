@@ -293,3 +293,34 @@ func SignAndPushToMpool(ctx context.Context, nodeAPI api.Gateway, n *node.Node, 
 	sent = true
 	return
 }
+
+func MoveFile(sourcePath, destPath string) error {
+	inputFile, err := os.Open(sourcePath)
+	if err != nil {
+		return err
+	}
+	defer inputFile.Close() // nolint:errcheck
+
+	outputFile, err := os.Create(destPath) // nolint:gosec
+	if err != nil {
+		return err
+	}
+	defer outputFile.Close() // nolint:errcheck
+
+	_, err = io.Copy(outputFile, inputFile)
+	if err != nil {
+		return err
+	}
+
+	err = outputFile.Sync()
+	if err != nil {
+		return err
+	}
+
+	err = os.Remove(sourcePath)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
